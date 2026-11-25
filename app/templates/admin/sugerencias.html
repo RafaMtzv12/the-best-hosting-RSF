@@ -1,0 +1,58 @@
+{% extends "admin/base_admin.html" %}
+{% block titulo %}Sugerencias{% endblock %}
+
+{% block contenido %}
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+  <h1 class="h3 m-0">Sugerencias <small class="text-muted fs-6">({{ paginacion.total }})</small></h1>
+  <div class="d-flex flex-wrap gap-2">
+    <form class="d-flex gap-2" method="get" role="search">
+      <input class="form-control" type="search" name="q" value="{{ q }}" placeholder="Buscar nombre, correo o texto…" aria-label="Buscar">
+      <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+    </form>
+    <a class="btn btn-success" href="{{ url_for('admin.exportar_excel', q=q) }}">Excel</a>
+    <a class="btn btn-danger" href="{{ url_for('admin.exportar_pdf', q=q) }}">PDF</a>
+  </div>
+</div>
+
+<div class="table-responsive card">
+  <table class="table table-hover align-middle m-0">
+    <thead><tr><th>#</th><th>Fecha</th><th>Nombre</th><th>Correo</th><th>Mensaje</th><th>Correo enviado</th><th></th></tr></thead>
+    <tbody>
+      {% for s in paginacion.items %}
+      <tr>
+        <td>{{ s.id }}</td>
+        <td class="text-nowrap">{{ s.fecha.strftime('%d/%m/%Y %H:%M') }}</td>
+        <td>{{ s.nombre }}</td>
+        <td><a href="mailto:{{ s.correo }}">{{ s.correo }}</a></td>
+        <td class="celda-mensaje">{{ s.mensaje }}</td>
+        <td>{% if s.correo_enviado %}<span class="badge text-bg-success">Sí</span>{% else %}<span class="badge text-bg-secondary">No</span>{% endif %}</td>
+        <td class="text-end"><button class="btn btn-sm btn-outline-danger btn-icono" type="button" data-eliminar-sugerencia="{{ s.id }}" aria-label="Eliminar sugerencia {{ s.id }}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg></button></td>
+      </tr>
+      {% else %}
+      <tr><td colspan="7" class="text-center text-muted py-4">No hay sugerencias{{ ' con esa búsqueda' if q }}.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<!-- Paginación (10 por página, se configura en config.py) -->
+{% if paginacion.pages > 1 %}
+<nav class="mt-3" aria-label="Páginas de sugerencias">
+  <ul class="pagination pagination-rojo justify-content-center flex-wrap">
+    <li class="page-item {{ 'disabled' if not paginacion.has_prev }}">
+      <a class="page-link" href="{{ url_for('admin.sugerencias', pagina=paginacion.prev_num, q=q) if paginacion.has_prev else '#' }}">&laquo; Anterior</a></li>
+    {% for num in paginacion.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=2) %}
+      {% if num %}
+      <li class="page-item {{ 'active' if num == paginacion.page }}">
+        <a class="page-link" href="{{ url_for('admin.sugerencias', pagina=num, q=q) }}">{{ num }}</a></li>
+      {% else %}<li class="page-item disabled"><span class="page-link">…</span></li>{% endif %}
+    {% endfor %}
+    <li class="page-item {{ 'disabled' if not paginacion.has_next }}">
+      <a class="page-link" href="{{ url_for('admin.sugerencias', pagina=paginacion.next_num, q=q) if paginacion.has_next else '#' }}">Siguiente &raquo;</a></li>
+  </ul>
+  <p class="text-center text-muted small">Página {{ paginacion.page }} de {{ paginacion.pages }}</p>
+</nav>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}<script>$(() => new SugerenciasAdmin(new ApiClient()).iniciar());</script>{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "admin/base_admin.html" %}
+{% block titulo %}Dashboard{% endblock %}
+
+{% block contenido %}
+<h1 class="h3 mb-3">Dashboard</h1>
+<div class="row g-3 mb-4">
+  {% for valor, texto, color in [(tarjetas.planes_activos, 'Planes activos', 'rojo'),
+                                 (tarjetas.contratos_vigentes, 'Contratos vigentes', 'gris'),
+                                 (tarjetas.por_vencer, 'Vencen en 10 días', 'naranja'),
+                                 (tarjetas.sugerencias, 'Sugerencias recibidas', 'azul')] %}
+  <div class="col-6 col-lg-3"><div class="tarjeta-dato {{ color }}"><b>{{ valor }}</b><span>{{ texto }}</span></div></div>
+  {% endfor %}
+</div>
+
+<!-- DASHBOARD 1: análisis de los tipos de planes registrados -->
+<section class="card mb-4">
+  <div class="card-header"><h2 class="h5 m-0">1. Análisis de los tipos de planes registrados</h2></div>
+  <div class="card-body">
+    <div class="row g-4">
+      <div class="col-md-5"><h3 class="h6 text-center">Planes registrados por tipo</h3>
+        <div class="grafica"><canvas id="graficaPlanesTipo" aria-label="Gráfica de planes por tipo" role="img"></canvas></div></div>
+      <div class="col-md-7"><h3 class="h6 text-center">Contratos por tipo de plan</h3>
+        <div class="grafica"><canvas id="graficaContratosTipo" aria-label="Gráfica de contratos por tipo" role="img"></canvas></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- DASHBOARD 2: planes a vencer en 10 días -->
+<section class="card">
+  <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
+    <h2 class="h5 m-0">2. Planes a vencer <small class="text-muted" id="rangoVencimientos"></small></h2>
+    <div class="btn-group btn-group-sm" role="group" aria-label="Periodo">
+      <button type="button" class="btn btn-outline-danger active" data-modo="proximos">Próximos 10 días</button>
+      <button type="button" class="btn btn-outline-danger" data-modo="ultimos">Últimos 10 días</button>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="grafica grafica-ancha"><canvas id="graficaVencimientos" aria-label="Gráfica de vencimientos por día" role="img"></canvas></div>
+    <div class="table-responsive mt-3">
+      <table class="table table-sm table-hover align-middle">
+        <thead><tr><th>Cliente</th><th>Dominio</th><th>Plan</th><th>Vence</th><th>Días</th></tr></thead>
+        <tbody id="tablaVencimientos"><tr><td colspan="5" class="text-center text-muted">Cargando…</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='vendor/chart.umd.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}

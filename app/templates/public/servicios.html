@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block titulo %}Servicios y buscador de planes{% endblock %}
+
+{% block contenido %}
+<h1 class="titulo-centro">Encuentra tu plan ideal</h1>
+<p class="subtitulo-rojo">Busca por nombre, característica o tipo de servicio</p>
+
+<!-- Buscador: la clase BuscadorPlanes (buscador.js) consulta GET /api/v1/planes mientras escribes -->
+<form class="buscador" id="buscador" role="search">
+  <div class="row g-2 align-items-end">
+    <div class="col-12">
+      <label class="form-label" for="q">¿Qué buscas?</label>
+      <input class="form-control" id="q" name="q" value="{{ q }}" placeholder="Ej. correo, wordpress, 100 GB, ilimitado…" maxlength="60">
+    </div>
+    <div class="col-12 col-sm-4">
+      <label class="form-label" for="tipo">Tipo de servicio</label>
+      <select class="form-select" id="tipo" name="tipo">
+        <option value="">Todos</option>
+        {% for t in tipos %}<option value="{{ t.clave }}" {{ 'selected' if t.clave == tipo }}>{{ t.nombre }}</option>{% endfor %}
+      </select>
+    </div>
+    <div class="col-6 col-sm-4">
+      <label class="form-label" for="precio_max">Precio máximo</label>
+      <select class="form-select" id="precio_max" name="precio_max">
+        <option value="">Cualquiera</option>
+        <option value="500">$500</option><option value="1000">$1,000</option>
+        <option value="2000">$2,000</option><option value="5000">$5,000</option>
+      </select>
+    </div>
+    <div class="col-6 col-sm-4">
+      <label class="form-label" for="orden">Ordenar</label>
+      <select class="form-select" id="orden" name="orden">
+        <option value="precio">Menor precio</option>
+        <option value="precio_desc">Mayor precio</option>
+        <option value="nombre">Nombre</option>
+      </select>
+    </div>
+  </div>
+</form>
+
+<p class="buscador-estado" id="estadoBusqueda" aria-live="polite">Buscando…</p>
+<div class="rejilla-planes" id="resultados"></div>
+
+<template id="plantillaPlan">
+  <article class="tarjeta-plan">
+    <h3 class="tarjeta-liston" data-campo="nombre"></h3>
+    <div class="tarjeta-precios">
+      <img alt="" width="64" height="64" data-campo="icono">
+      <div><del data-campo="precio_anterior"></del><p class="precio"><span data-campo="precio"></span><small data-campo="periodo"></small></p></div>
+    </div>
+    <p class="tarjeta-tipo" data-campo="tipo"></p>
+    <p class="tarjeta-lema" data-campo="lema"></p>
+    <ul class="lista-check" data-campo="caracteristicas"></ul>
+    <div class="tarjeta-botones">
+      <a class="boton-detalles" data-campo="detalles">Detalles</a>
+      <a class="boton-detalles boton-pdf" data-campo="pdf" target="_blank" rel="noopener">Ficha PDF</a>
+    </div>
+  </article>
+</template>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/buscador.js') }}"></script>
+{% endblock %}

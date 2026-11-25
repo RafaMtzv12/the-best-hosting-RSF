@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block titulo %}Clientes{% endblock %}
+
+{% block contenido %}
+<h1 class="titulo-centro">Nuestros clientes</h1>
+<p class="subtitulo-rojo">Empresas que confían su sitio web en The Best Hosting</p>
+<div class="rejilla-clientes">
+  {% for cliente in clientes %}
+  <a class="cliente" href="{{ cliente.url }}" target="_blank" rel="noopener" title="Visitar el sitio de {{ cliente.nombre }}">
+    <img src="{{ url_for('static', filename='img/' ~ cliente.logo) }}" alt="Logo de {{ cliente.nombre }}" width="260" height="130" loading="lazy">
+    <span>{{ cliente.giro }}</span>
+  </a>
+  {% endfor %}
+</div>
+{% endblock %}

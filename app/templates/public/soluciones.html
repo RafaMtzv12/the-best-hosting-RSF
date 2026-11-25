@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block titulo %}Soluciones{% endblock %}
+
+{% block contenido %}
+<h1 class="titulo-centro">Soluciones para cada proyecto</h1>
+<p class="subtitulo-rojo">Elige el tipo de servicio que necesitas</p>
+{% set iconos = {'compartido': 'menu/web_hosting.webp', 'vps': 'menu/servicios.webp',
+                 'dedicado': 'menu/servidor.webp', 'reseller': 'menu/resellers.webp'} %}
+<div class="rejilla-soluciones">
+  {% for t in tipos %}
+  <a class="solucion" href="{{ url_for('public.servicios', tipo=t.clave) }}">
+    <img src="{{ url_for('static', filename='img/' ~ iconos.get(t.clave, 'menu/servicios.webp')) }}" alt="" width="48" height="48">
+    <h2>{{ t.nombre }}</h2>
+    <p>{{ t.descripcion }}</p>
+    <span>Ver {{ t.planes|selectattr('activo')|list|length }} planes &rarr;</span>
+  </a>
+  {% endfor %}
+</div>
+{% endblock %}

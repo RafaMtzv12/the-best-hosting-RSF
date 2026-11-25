@@ -1,0 +1,67 @@
+{%- set pagina = request.endpoint or '' -%}
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block titulo %}Panel{% endblock %} | Administración The Best Hosting</title>
+  <link rel="icon" type="image/webp" href="{{ url_for('static', filename='img/menu/web_hosting.webp') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='vendor/bootstrap.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark barra-admin">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{{ url_for('admin.dashboard') }}">
+      <img src="{{ url_for('static', filename='img/menu/web_hosting.webp') }}" alt="" width="28" height="28"> The Best Hosting
+      <small>Administración</small>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuAdmin"
+            aria-controls="menuAdmin" aria-expanded="false" aria-label="Abrir menú">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="menuAdmin">
+      <ul class="navbar-nav me-auto">
+        {%- for endpoint, texto in [('admin.dashboard', 'Dashboard'), ('admin.planes', 'Planes'),
+                                    ('admin.contratos', 'Contratos'), ('admin.sugerencias', 'Sugerencias')] %}
+        <li class="nav-item"><a class="nav-link {{ 'active' if pagina == endpoint }}" href="{{ url_for(endpoint) }}">{{ texto }}</a></li>
+        {%- endfor %}
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('public.inicio') }}" target="_blank">Ver sitio &#8599;</a></li>
+      </ul>
+      <form class="d-flex align-items-center gap-2" method="post" action="{{ url_for('auth.logout') }}">
+        <span class="text-white-50 small">{{ session.get('usuario_nombre', '') }}</span>
+        <button class="btn btn-sm btn-outline-light" type="submit">Cerrar sesión</button>
+      </form>
+    </div>
+  </div>
+</nav>
+
+<main class="container-xl py-4">
+  {% for categoria, mensaje in get_flashed_messages(with_categories=true) %}
+    <div class="alert alert-{{ categoria }} alert-dismissible fade show" role="alert">{{ mensaje }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button></div>
+  {% endfor %}
+  {% block contenido %}{% endblock %}
+</main>
+
+<!-- Ventana de confirmación reutilizable (clase Confirmacion en admin.js) -->
+<div class="modal fade" id="modalConfirmar" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-sm">
+    <div class="modal-content">
+      <div class="modal-body" data-texto>¿Seguro?</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-danger" data-aceptar>Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="toast-container position-fixed top-0 end-0 p-3" id="toasts"></div>
+
+<script src="{{ url_for('static', filename='vendor/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+<script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

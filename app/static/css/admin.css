@@ -1,0 +1,100 @@
+/* Estilos del panel de administración y del login.
+   Misma estructura original; letra (Poppins + Inter), botones y
+   cuadros de texto con acabado moderno. */
+@font-face { font-family: "Poppins"; font-weight: 500; font-display: swap; src: url("../fonts/Poppins-Medium.woff") format("woff"); }
+@font-face { font-family: "Poppins"; font-weight: 700; font-display: swap; src: url("../fonts/Poppins-Bold.woff") format("woff"); }
+@font-face { font-family: "Inter"; font-weight: 400; font-display: swap; src: url("../fonts/Inter-Regular.woff") format("woff"); }
+@font-face { font-family: "Inter"; font-weight: 600; font-display: swap; src: url("../fonts/Inter-SemiBold.woff") format("woff"); }
+
+:root {
+  --rojo: #8b0000;
+  --rojo-claro: #c8201c;
+  --titulos: "Poppins", "Segoe UI", system-ui, sans-serif;
+  --texto: "Inter", "Segoe UI", system-ui, sans-serif;
+  --foco: 0 0 0 4px rgba(200, 32, 28, .15);
+}
+
+body { background: #f4f1f1; font-family: var(--texto); }
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 { font-family: var(--titulos); color: #1f1b1b; }
+
+.barra-admin { background: linear-gradient(90deg, #6e0000, var(--rojo) 50%, #a51010); }
+.barra-admin .navbar-brand { font-family: var(--titulos); }
+.barra-admin .navbar-brand img { vertical-align: -6px; }
+.barra-admin .navbar-brand small { font-size: .7rem; opacity: .75; margin-left: 4px; }
+.barra-admin .nav-link { font-family: var(--titulos); font-weight: 500; }
+.barra-admin .nav-link.active { font-weight: 700; border-bottom: 2px solid #fff; }
+
+/* ---------- Botones (acabado moderno) ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-radius: 10px;
+  font: 500 .9rem var(--titulos);
+  transition: transform .15s ease, box-shadow .15s ease, background .15s ease, color .15s ease;
+}
+.btn:hover { transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
+.btn-sm { border-radius: 8px; font-size: .8rem; }
+.btn-group > .btn:hover { transform: none; }
+.btn-rojo { background: linear-gradient(135deg, var(--rojo-claro), var(--rojo)); color: #fff; border: 0; box-shadow: 0 4px 12px rgba(139, 0, 0, .25); }
+.btn-rojo:hover, .btn-rojo:focus { background: linear-gradient(135deg, #e0302a, #a00); color: #fff; box-shadow: 0 8px 18px rgba(139, 0, 0, .3); }
+.btn-rojo:disabled { opacity: .6; color: #fff; }
+.btn-success, .btn-danger { box-shadow: 0 4px 12px rgba(0, 0, 0, .15); }
+.btn-icono { padding-left: 8px; padding-right: 8px; }
+
+/* ---------- Cuadros de texto (acabado moderno) ---------- */
+.form-control, .form-select {
+  border: 1.5px solid #d6cfcf;
+  border-radius: 10px;
+  padding: 8px 12px;
+  transition: border-color .2s, box-shadow .2s;
+}
+.form-control:focus, .form-select:focus { border-color: var(--rojo-claro); box-shadow: var(--foco); }
+.form-label { font: 500 .85rem var(--titulos); margin-bottom: 4px; }
+.form-check-input:checked { background-color: var(--rojo); border-color: var(--rojo); }
+.form-check-input:focus { box-shadow: var(--foco); }
+
+.tarjeta-dato {
+  display: flex;
+  flex-direction: column;
+  padding: 14px 18px;
+  border-radius: 10px;
+  color: #fff;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, .15);
+}
+.tarjeta-dato b { font: 700 2rem/1.1 var(--titulos); }
+.tarjeta-dato span { font-size: .85rem; opacity: .9; }
+.tarjeta-dato.rojo { background: linear-gradient(135deg, #a51010, #6e0000); }
+.tarjeta-dato.gris { background: linear-gradient(135deg, #7f8c8d, #4b5556); }
+.tarjeta-dato.naranja { background: linear-gradient(135deg, #e67e22, #b35400); }
+.tarjeta-dato.azul { background: linear-gradient(135deg, #2c6fad, #1b4570); }
+
+.grafica { position: relative; height: 280px; }
+.grafica-ancha { height: 300px; }
+
+.card-header { background: #fff; }
+.table thead th { background: #fbeeee; white-space: nowrap; font-family: var(--titulos); font-weight: 500; }
+.celda-mensaje { min-width: 260px; max-width: 480px; }
+
+.pagination-rojo .page-link { color: var(--rojo); }
+.pagination-rojo .active > .page-link { background: var(--rojo); border-color: var(--rojo); color: #fff; }
+
+/* Login */
+.login-fondo {
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(120deg, #6e0000, #b81a14);
+}
+.login-caja {
+  width: min(380px, 92vw);
+  padding: 28px;
+  border-radius: 14px;
+  background: linear-gradient(#fff, #f3e3e3);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, .4);
+  text-align: center;
+}
+.login-caja h1 { margin: 10px 0 18px; color: var(--rojo); }

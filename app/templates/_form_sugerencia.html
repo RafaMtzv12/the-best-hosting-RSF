@@ -1,0 +1,23 @@
+{#- Formulario de contacto/sugerencias reutilizable (pie de página y página Contacto).
+    El JavaScript (FormularioSugerencia en sitio.js) lo envía a POST /api/v1/sugerencias. -#}
+{%- set fid = fid|default('pie') -%}
+<form class="form-sugerencia" data-formulario-sugerencia novalidate>
+  <div class="campo campo-nombre">
+    <label for="{{ fid }}-nombre">Nombre <em>(requerido)</em>:</label>
+    <input id="{{ fid }}-nombre" name="nombre" class="form-control" maxlength="100" autocomplete="name" required>
+    <div class="invalid-feedback"></div>
+  </div>
+  <div class="campo campo-correo">
+    <label for="{{ fid }}-correo">Correo electrónico <em>(requerido)</em>:</label>
+    <input id="{{ fid }}-correo" name="correo" type="email" class="form-control" maxlength="120" autocomplete="email" required>
+    <div class="invalid-feedback"></div>
+  </div>
+  <div class="campo campo-mensaje">
+    <label for="{{ fid }}-mensaje">Sugerencia o mensaje <em>(requerido)</em>:</label>
+    <textarea id="{{ fid }}-mensaje" name="mensaje" class="form-control" rows="{{ filas|default(4) }}" maxlength="2000" required>{{ mensaje_inicial|default('') }}</textarea>
+    <div class="invalid-feedback"></div>
+  </div>
+  <div class="campo-boton">
+    <button type="submit" class="boton-gris">Enviar sugerencia</button>
+  </div>
+</form>

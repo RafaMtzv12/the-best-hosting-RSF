@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block titulo %}Compañía{% endblock %}
+
+{% block contenido %}
+<h1 class="titulo-centro">Conoce The Best Hosting</h1>
+<p class="subtitulo-rojo">Hospedaje web líder mundial desde 2014</p>
+
+<div class="row g-4 align-items-start">
+  <div class="col-lg-7">
+    <!-- VIDEO: objetivo de la empresa, promociones y consejos (2 a 4 minutos) -->
+    <figure class="medio">
+      <video controls preload="metadata" playsinline
+             poster="{{ url_for('static', filename='img/sitio/video_portada.jpg') }}">
+        <source src="{{ url_for('static', filename='media/presentacion.mp4') }}" type="video/mp4">
+        Tu navegador no puede reproducir video.
+      </video>
+      <figcaption>Video: quiénes somos, nuestras promociones y consejos para elegir tu hosting.</figcaption>
+    </figure>
+  </div>
+  <div class="col-lg-5">
+    <h2 class="h5">Nuestro objetivo</h2>
+    <p>Que cualquier persona o empresa tenga su sitio web en línea de forma rápida, segura y a un precio justo, con soporte humano en español las 24 horas.</p>
+    <h2 class="h5">Misión</h2>
+    <p>Ofrecer hospedaje web confiable con la mejor relación entre precio y rendimiento.</p>
+    <h2 class="h5">Visión</h2>
+    <p>Ser la empresa de hosting preferida por las pequeñas y medianas empresas de habla hispana.</p>
+
+    <!-- AUDIO: mensaje de bienvenida -->
+    <figure class="medio medio-audio">
+      <figcaption>&#127925; Escucha nuestro mensaje de bienvenida</figcaption>
+      <audio controls preload="none">
+        <source src="{{ url_for('static', filename='media/bienvenida.mp3') }}" type="audio/mpeg">
+        Tu navegador no puede reproducir audio.
+      </audio>
+      <small class="credito-musica">Música de fondo: Diviners feat. Contacreast - Tropic Love [NCS Release] · Music provided by NoCopyrightSounds</small>
+    </figure>
+  </div>
+</div>
+
+<h2 class="h5 mt-4">En números</h2>
+<div class="cifras">
+  <div><b>10+</b><span>años de experiencia</span></div>
+  <div><b>99.9%</b><span>tiempo en línea</span></div>
+  <div><b>2</b><span>centros de datos</span></div>
+  <div><b>24/7</b><span>soporte técnico</span></div>
+</div>
+{% endblock %}

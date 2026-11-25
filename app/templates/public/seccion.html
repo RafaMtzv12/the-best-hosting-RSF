@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block titulo %}{{ seccion.titulo }}{% endblock %}
+
+{% block contenido %}
+<article class="seccion-info">
+  <header>
+    <img src="{{ url_for('static', filename='img/' ~ seccion.icono) }}" alt="" width="56" height="56">
+    <h1>{{ seccion.titulo }}</h1>
+  </header>
+  {% for p in seccion.parrafos %}<p>{{ p }}</p>{% endfor %}
+  {% if seccion.puntos %}<ul class="lista-check">{% for punto in seccion.puntos %}<li>{{ punto }}</li>{% endfor %}</ul>{% endif %}
+  {% if seccion.clave == 'centro-de-ayuda' %}
+    <p><button type="button" class="boton-rojo" data-abrir-chat>Abrir el chat de ayuda</button></p>
+  {% endif %}
+  {% if seccion.enlace %}<p><a class="boton-gris" href="{{ seccion.enlace[1] }}">{{ seccion.enlace[0] }}</a></p>{% endif %}
+</article>
+{% endblock %}

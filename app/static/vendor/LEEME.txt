@@ -1,0 +1,3 @@
+Aquí van las librerías del frontend: Bootstrap 5.3.3, jQuery 3.7.1 y Chart.js 4.4.4.
+Se descargan con:  bash descargar_librerias.sh   (desde la carpeta principal del proyecto)
+Después se suben a GitHub para que el equipo no tenga que descargarlas.

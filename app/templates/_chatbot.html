@@ -1,0 +1,23 @@
+{#- Chatbot de ayuda en línea 24/7 (lo controla la clase Chatbot de sitio.js) -#}
+<div class="chatbot" id="chatbot">
+  <button type="button" class="chatbot-boton" data-abrir-chat aria-controls="chatbotPanel" aria-expanded="false">
+    <img src="{{ url_for('static', filename='img/sitio/chat.webp') }}" alt="" width="34" height="32">
+    <span>¿Te ayudamos? <small>En línea 24/7</small></span>
+  </button>
+  <section class="chatbot-panel" id="chatbotPanel" aria-label="Chat de ayuda en línea" hidden>
+    <header>
+      <img src="{{ url_for('static', filename='img/sitio/soporte.webp') }}" alt="" width="34" height="35">
+      <div><strong>Asistente The Best Hosting</strong><small><span class="punto-verde"></span> En línea las 24 horas</small></div>
+      <button type="button" class="chatbot-sonido" title="Activar o silenciar sonido" aria-pressed="true">&#128266;</button>
+      <button type="button" class="chatbot-cerrar" aria-label="Cerrar chat">&times;</button>
+    </header>
+    <div class="chatbot-mensajes" aria-live="polite"></div>
+    <div class="chatbot-sugerencias"></div>
+    <form class="chatbot-form" autocomplete="off">
+      <label class="visually-hidden" for="chatbotTexto">Escribe tu pregunta</label>
+      <input id="chatbotTexto" type="text" maxlength="500" placeholder="Escribe tu pregunta…">
+      <button type="submit" aria-label="Enviar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg></button>
+    </form>
+  </section>
+  <audio id="chatbotAudio" src="{{ url_for('static', filename='media/notificacion.mp3') }}" preload="auto"></audio>
+</div>

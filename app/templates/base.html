@@ -1,0 +1,177 @@
+{#- Plantilla base de la parte pública. Sigue el diseño de Photoshop:
+    encabezado, menú lateral izquierdo, contenido al centro, columna derecha y pie. -#}
+{%- set c = contador() -%}
+{%- set pagina = request.endpoint or '' -%}
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block titulo %}Hospedaje web líder mundial{% endblock %} | The Best Hosting</title>
+  <meta name="description" content="The Best Hosting: hospedaje web, dominios, VPS y servidores dedicados con soporte 24/7.">
+  <link rel="icon" type="image/webp" href="{{ url_for('static', filename='img/menu/web_hosting.webp') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='vendor/bootstrap.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
+</head>
+<body>
+<a class="visually-hidden-focusable" href="#contenido">Saltar al contenido</a>
+<div class="sitio">
+
+  <!-- ===================== ENCABEZADO ===================== -->
+  <header class="encabezado">
+    <a class="marca" href="{{ url_for('public.inicio') }}">
+      <img src="{{ url_for('static', filename='img/sitio/logo.webp') }}" alt="The Best Hosting" width="243" height="128">
+    </a>
+    <p class="eslogan">Hospedaje WEB Líder Mundial</p>
+
+    <div class="ventas">
+      <span class="ventas-titulo">¿Preguntas? Contacto de ventas:</span>
+      <a class="telefono" href="tel:+528444145676">
+        <img src="{{ url_for('static', filename='img/sitio/telefono.webp') }}" alt="" width="23" height="31">(844) 414 5676
+      </a>
+    </div>
+
+    <button type="button" class="ayuda-linea" data-abrir-chat>
+      Ayuda en línea
+      <img src="{{ url_for('static', filename='img/sitio/chat.webp') }}" alt="" width="50" height="47">
+    </button>
+
+    <form class="buscador-cabecera" action="{{ url_for('public.servicios') }}" role="search">
+      <label class="visually-hidden" for="busquedaRapida">Buscar planes</label>
+      <input id="busquedaRapida" name="q" type="search" placeholder="Buscar planes y servicios…" maxlength="60">
+      <button type="submit" aria-label="Buscar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></button>
+    </form>
+
+    <nav class="navbar navbar-expand-lg pestanas" aria-label="Menú principal">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal"
+              aria-controls="menuPrincipal" aria-expanded="false">&#9776; Menú</button>
+      <div class="collapse navbar-collapse" id="menuPrincipal">
+        <ul class="navbar-nav">
+          {%- for endpoint, texto in [('public.compania', 'Compañía'), ('public.servicios', 'Servicios'),
+                                      ('public.soluciones', 'Soluciones'), ('public.clientes', 'Clientes'),
+                                      ('public.contacto', 'Contacto')] %}
+          <li class="nav-item">
+            <a class="nav-link {{ 'activa' if pagina == endpoint }}" href="{{ url_for(endpoint) }}"
+               {% if pagina == endpoint %}aria-current="page"{% endif %}>{{ texto }}</a>
+          </li>
+          {%- endfor %}
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  {% block banner %}{% endblock %}
+
+  <div class="cuerpo">
+    <!-- ===================== MENÚ LATERAL ===================== -->
+    <aside class="lateral-izq">
+      <div class="asistencia">
+        <img src="{{ url_for('static', filename='img/sitio/soporte.webp') }}" alt="" width="47" height="48">
+        24/7 Asistencia Técnica
+      </div>
+      <nav class="menu-lateral" aria-label="Servicios">
+        {%- set menu = [
+            ('web_hosting', 'Web Hosting', url_for('public.seccion', clave='web-hosting'), ''),
+            ('servidor', 'Servidor Dedicado', url_for('public.seccion', clave='servidor-dedicado'), ''),
+            ('garantia', 'Póliza de Garantías', url_for('public.seccion', clave='garantias'), ''),
+            ('porque', '¿Por qué nosotros?', url_for('public.seccion', clave='por-que-nosotros'), ''),
+            ('ayuda', 'Centro de Ayuda', url_for('public.seccion', clave='centro-de-ayuda'), 'resaltado'),
+            ('dominios', 'Dominios', url_for('public.seccion', clave='dominios'), ''),
+            ('servicios', 'Más Servicios', url_for('public.soluciones'), ''),
+            ('tecnologia', 'Tecnología', url_for('public.seccion', clave='tecnologia'), ''),
+            ('resellers', 'Resellers', url_for('public.seccion', clave='resellers'), ''),
+            ('faq', 'Preguntas Frecuentes', url_for('public.preguntas_frecuentes'), ''),
+        ] %}
+        {%- for icono, texto, url, clase in menu %}
+        <a class="boton-menu {{ clase }}" href="{{ url }}">
+          <img src="{{ url_for('static', filename='img/menu/' ~ icono ~ '.webp') }}" alt="" width="36" height="36" loading="lazy">
+          <span>{{ texto }}</span>
+        </a>
+        {%- endfor %}
+      </nav>
+      <div class="contador" aria-label="Estadísticas del sitio">
+        <div><img src="{{ url_for('static', filename='img/sitio/conectados.webp') }}" alt="" width="22" height="22">
+          Conectados: <b data-conectados>{{ c.conectados }}</b></div>
+        <div><img src="{{ url_for('static', filename='img/sitio/visitas.webp') }}" alt="" width="21" height="20">
+          Visitas: <span class="digitos" data-visitas>{% for d in c.visitas_digitos %}<span>{{ d }}</span>{% endfor %}</span></div>
+      </div>
+    </aside>
+
+    <!-- ===================== CONTENIDO ===================== -->
+    <main class="contenido" id="contenido">
+      {% block contenido %}{% endblock %}
+    </main>
+
+    <!-- ===================== COLUMNA DERECHA ===================== -->
+    <aside class="lateral-der">
+      <img class="lateral-foto" src="{{ url_for('static', filename='img/sitio/lateral_hombre.webp') }}"
+           alt="Ingeniero de The Best Hosting en el centro de datos" width="242" height="224" loading="lazy">
+      <div class="lateral-info">
+        <p>La máxima calidad en hosting al mejor precio. Los planes incluyen todo lo que necesitas: mayor rendimiento y máxima seguridad para tu sitio web.</p>
+        <p>The Best Host te ofrece el más alto nivel de confiabilidad gracias a nuestra georedundancia: tu página web estará almacenada en dos centros de datos de alto rendimiento independientes, localizados en distintos lugares.</p>
+        <p>Si tienes alguna pregunta puedes ponerte en contacto con nosotros a:</p>
+        <a class="lateral-correo" href="mailto:help@thebesthost.com">help@thebesthost.com</a>
+      </div>
+      <div class="tecnologias">
+        <p>Contamos con las mejores tecnologías</p>
+        <div class="tecnologias-logos">
+          {%- for t in ['cisco', 'php', 'mysql', 'java', 'vstudio', 'oracle', 'sqlserver', 'wordpress', 'joomla'] %}
+          <img src="{{ url_for('static', filename='img/tecnologias/' ~ t ~ '.webp') }}" alt="{{ t|capitalize }}" loading="lazy">
+          {%- endfor %}
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- ===================== PIE DE PÁGINA ===================== -->
+  <footer class="pie">
+    <div class="pie-interes">
+      <p class="pie-titulo">Esto podría interesarte:</p>
+      <a class="pie-promo" href="{{ url_for('public.servicios', tipo='dedicado') }}">
+        <strong>Servidores Dedicados</strong>
+        <span>Servidores de alto rendimiento para aplicaciones avanzadas de calidad superior.</span>
+        <img class="pie-promo-servidor" src="{{ url_for('static', filename='img/sitio/footer_servidor.webp') }}" alt="" width="73" height="75" loading="lazy">
+        <span class="pie-desde"><small>Desde</small> $700</span>
+      </a>
+      <p class="pie-copy">The Best Host &copy; 2026<br>
+        <a href="{{ url_for('public.seccion', clave='reembolso') }}">Políticas de reembolso</a></p>
+    </div>
+
+    <div class="pie-enlaces">
+      <nav aria-label="Enlaces de interés">
+        <a href="{{ url_for('public.seccion', clave='terminos') }}">Términos y Condiciones</a>
+        <a href="{{ url_for('public.seccion', clave='privacidad') }}">Políticas de Privacidad</a>
+        <a href="{{ url_for('public.seccion', clave='dominios') }}">Transferencia de Dominios</a>
+        <a href="{{ url_for('public.seccion', clave='dominios') }}">Precios de Dominios</a>
+      </nav>
+      <address>
+        202 Bitters Road<br>San Antonio, TX<br>23844
+        <a class="pie-mapa" href="https://www.google.com/maps/search/?api=1&query=202+Bitters+Road+San+Antonio+TX"
+           target="_blank" rel="noopener">View Map
+          <img src="{{ url_for('static', filename='img/sitio/mapa.webp') }}" alt="" width="27" height="27" loading="lazy"></a>
+      </address>
+    </div>
+
+    <div class="pie-contacto">
+      <div class="pie-contacto-titulo">
+        <p>Conéctate con The Best Host</p>
+        <span class="redes">
+          <a href="https://www.facebook.com" target="_blank" rel="noopener">facebook <img src="{{ url_for('static', filename='img/sitio/facebook.webp') }}" alt="" width="23" height="23"></a>
+          <a href="https://x.com" target="_blank" rel="noopener">twitter <img src="{{ url_for('static', filename='img/sitio/twitter.webp') }}" alt="" width="23" height="23"></a>
+        </span>
+      </div>
+      {% include "_form_sugerencia.html" %}
+    </div>
+  </footer>
+</div>
+
+{% include "_chatbot.html" %}
+<div class="toast-container position-fixed top-0 end-0 p-3" id="toasts"></div>
+
+<script src="{{ url_for('static', filename='vendor/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+<script src="{{ url_for('static', filename='js/sitio.js') }}"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

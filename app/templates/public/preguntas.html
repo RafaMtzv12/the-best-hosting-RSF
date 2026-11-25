@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block titulo %}Preguntas frecuentes{% endblock %}
+
+{% block contenido %}
+<h1 class="titulo-centro">Preguntas frecuentes</h1>
+<p class="subtitulo-rojo">Haz clic en una pregunta para ver la respuesta</p>
+
+<!-- Control tipo acordeón de Bootstrap: solo una respuesta abierta a la vez -->
+<div class="accordion acordeon-rojo" id="acordeonPreguntas">
+  {% for p in preguntas %}
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button {{ 'collapsed' if not loop.first }}" type="button" data-bs-toggle="collapse"
+              data-bs-target="#respuesta{{ p.id }}" aria-expanded="{{ 'true' if loop.first else 'false' }}"
+              aria-controls="respuesta{{ p.id }}">{{ p.pregunta }}</button>
+    </h2>
+    <div id="respuesta{{ p.id }}" class="accordion-collapse collapse {{ 'show' if loop.first }}" data-bs-parent="#acordeonPreguntas">
+      <div class="accordion-body">{{ p.respuesta }}</div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+<p class="mt-3 text-center">¿No encontraste tu respuesta? <button type="button" class="boton-enlace" data-abrir-chat>Pregúntale a nuestro asistente</button></p>
+{% endblock %}

@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% from "_macros.html" import tarjeta_plan %}
+{% block titulo %}Inicio{% endblock %}
+
+{% block banner %}
+<!-- Slideshow (carrusel de Bootstrap) en la sección roja del diseño -->
+<section class="banner" aria-label="Promociones">
+  <div class="banner-servidores">
+    <p>Servidores:</p>
+    <img src="{{ url_for('static', filename='img/sitio/linux.webp') }}" alt="Linux" width="113" height="121">
+    <img src="{{ url_for('static', filename='img/sitio/windows.webp') }}" alt="Windows" width="129" height="93">
+  </div>
+
+  <div id="slideshow" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="6000">
+    <div class="carousel-indicators">
+      {% for i in range(4) %}
+      <button type="button" data-bs-target="#slideshow" data-bs-slide-to="{{ i }}" aria-label="Promoción {{ i + 1 }}"
+              {% if i == 0 %}class="active" aria-current="true"{% endif %}></button>
+      {% endfor %}
+    </div>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <div class="slide">
+          <div class="slide-caja">
+            <h2>El mejor WEB Hosting por solo $60MN al mes</h2>
+            <ul class="lista-flecha">
+              <li>Ilimitados dominios en el Hosting</li>
+              <li>Espacio ilimitado</li>
+              <li>Ilimitada transferencia de archivos</li>
+              <li>Ilimitadas cuentas de correo</li>
+              <li>Gratis un nombre de dominio</li>
+            </ul>
+            <a class="boton-vermas" href="{{ url_for('public.servicios') }}">Ver más</a>
+          </div>
+          <img class="slide-foto" src="{{ url_for('static', filename='img/sitio/banner_hombre.webp') }}"
+               alt="Asesor de The Best Hosting con su laptop" width="339" height="287">
+        </div>
+      </div>
+      <div class="carousel-item">
+        <div class="slide">
+          <div class="slide-caja">
+            <h2>Servidores dedicados desde $700 al mes</h2>
+            <ul class="lista-flecha">
+              <li>Un servidor físico solo para ti</li>
+              <li>Hasta 64 GB de memoria RAM</li>
+              <li>Discos SSD con RAID</li>
+              <li>Linux o Windows, tú eliges</li>
+            </ul>
+            <a class="boton-vermas" href="{{ url_for('public.servicios', tipo='dedicado') }}">Ver más</a>
+          </div>
+          <img class="slide-foto slide-foto-marco" src="{{ url_for('static', filename='img/sitio/lateral_hombre.webp') }}"
+               alt="Ingeniero junto a los servidores" width="242" height="224" loading="lazy">
+        </div>
+      </div>
+      <div class="carousel-item">
+        <div class="slide">
+          <div class="slide-caja">
+            <h2>Registra tu dominio hoy</h2>
+            <p class="slide-texto">Tu empresa merece un nombre propio en internet.</p>
+            <div class="dominios-precios">
+              <span>.com <b>$249</b></span><span>.mx <b>$399</b></span><span>.com.mx <b>$299</b></span>
+            </div>
+            <a class="boton-vermas" href="{{ url_for('public.seccion', clave='dominios') }}">Ver más</a>
+          </div>
+          <img class="slide-foto slide-icono" src="{{ url_for('static', filename='img/menu/dominios.webp') }}"
+               alt="" width="46" height="43" loading="lazy">
+        </div>
+      </div>
+      <div class="carousel-item">
+        <div class="slide">
+          <div class="slide-caja">
+            <h2>Soporte técnico 24/7 en español</h2>
+            <ul class="lista-flecha">
+              <li>Chat de ayuda en línea las 24 horas</li>
+              <li>Teléfono (844) 414 5676</li>
+              <li>Respaldos diarios automáticos</li>
+              <li>30 días de garantía de reembolso</li>
+            </ul>
+            <button type="button" class="boton-vermas" data-abrir-chat>Abrir chat</button>
+          </div>
+          <img class="slide-foto slide-icono" src="{{ url_for('static', filename='img/menu/ayuda.webp') }}"
+               alt="" width="44" height="44" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block contenido %}
+<h1 class="titulo-centro">Máximo rendimiento y flexibilidad para tus proyectos Web</h1>
+<p class="subtitulo-rojo">¡Aprovecha nuestras ofertas de por vida!</p>
+<div class="rejilla-planes">
+  {% for plan in planes %}{{ tarjeta_plan(plan) }}{% endfor %}
+</div>
+<p class="text-center mt-3"><a class="boton-rojo" href="{{ url_for('public.servicios') }}">Ver todos los planes y buscar</a></p>
+{% endblock %}
